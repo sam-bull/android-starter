@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.test.databinding.FragmentMainBinding
+import javax.inject.Inject
 
 class MainFragment : Fragment() {
 
@@ -15,6 +16,7 @@ class MainFragment : Fragment() {
                 MainFragment()
     }
 
+    @Inject
     lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
@@ -22,13 +24,13 @@ class MainFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
+        (activity?.application as TestApplication).component.inject(this)
         val binding: FragmentMainBinding =
                 DataBindingUtil.inflate(
                         inflater,
                         R.layout.fragment_main, container, false
                 )
         binding.lifecycleOwner = this
-        viewModel = MainViewModel()
         binding.viewModel = viewModel
         return binding.root
     }
